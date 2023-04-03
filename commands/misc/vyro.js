@@ -13,6 +13,6 @@ module.exports = {
 	// Refer to typings.d.ts for available properties.
 
 	execute(message, args) {
-		message.channel.send({ content: "Soy Vyro Bot el Bot inteligente." });
+		message.channel.send({ content: "I'm Vyro Bot the intelligent Bot." });
 	},
 };
