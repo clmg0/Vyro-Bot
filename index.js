@@ -28,24 +28,36 @@ client.on("messageCreate", message => {
 
 	const prefix = config.prefix
 
-	//SI EL MENSAJE NO EMPIEZA POR ASTERISCO SALE DE LA FUNCIÓN
+	//SI EL MENSAJE NO EMPIEZA POR ASTERISCO SALE DE LA FUNCIÓN, NO ES UN COMANDO
 	if (!message.content.toLowerCase().startsWith(prefix)) return
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/g)
 	let Queue = client.DisTube.getQueue(message)
 
-	//FUNCION DE PLAY
-	if (args.shift().toLowerCase() === "play") {
-		client.DisTube.play(message.member.voice.channel, args.join(" "), {
-			member: message.member,
-			textChannel: message.channel,
-			message
-		})
-		return
+	//CHECK SI EL USUARIO ESTA EN UN CANAL DE VOZ PARA PERMITIR FUNCIONES DE MUSICA
+	if(message.member.voice.channel) {
+		//FUNCION DE PLAY/ADD
+		if (args.shift().toLowerCase() === "play") {
+			playSong(message, args)
+			
+		} else if (Queue !== undefined) {
+			//SI EXISTE LA COLA DE REPRODUCCIÓN
+			musicQueueFunctions(Queue, message)
+		}
 	}
+})
 
-	if(Queue === undefined) return
+//FUNCION DE PLAY/ADD
+function playSong(message, args) {
+	client.DisTube.play(message.member.voice.channel, args.join(" "), {
+		member: message.member,
+		textChannel: message.channel,
+		message
+	})
+}
 
+//FUNCIONES DE MUSICA SI HAY COLA EN REPRODUCCIÓN
+function musicQueueFunctions(Queue, message) {
 	//SHUFFLE DE LA COLA
 	if (message.content.toLowerCase() === (config.prefix +"shuffle")) {
 		Queue = client.DisTube.shuffle(message);
@@ -74,24 +86,19 @@ client.on("messageCreate", message => {
 	}
 	
 	//FUNCION DE STOP
-	if (Queue === undefined) return
 	if (message.content.toLowerCase() === (config.prefix +"stop")) {
 		client.DisTube.stop(message);
         message.channel.send("Stopped the queue!");
 		return
 	}
 
-	//FUNCION DE SKIP, SI LA COLA ESTA EN AUTOPLAY O SOLO HAY UNA CANCION SALE DE LA FUNCIÓN
-	if (!Queue.autoplay && Queue.songs.length <= 1) {
-		message.channel.send("No next song/No song playing");
-		return
-	}
-	
-	if (message.content.toLowerCase() === (config.prefix +"skip")) {
+	//FUNCION DE SKIP, SI SOLO HAY UNA CANCION SE EVITA
+	if ((message.content.toLowerCase() === (config.prefix +"skip")) && Queue.songs.length > 1) {
 		client.DisTube.skip(message);
-		return
+	} else {
+		message.channel.send("No next song, can't skip");
 	}
-})
+}
 
 client.DisTube.on('playSong', (queue, song) =>
     queue.textChannel.send(
