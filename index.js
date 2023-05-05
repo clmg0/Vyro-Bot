@@ -1,6 +1,6 @@
 //IMPORTS
-
 const discord = require("discord.js")
+
 const client = new discord.Client({
 	intents: [
 		"Guilds",
@@ -10,6 +10,7 @@ const client = new discord.Client({
 		"GuildMembers"
 	]
 })
+
 const config = require('./config.json')
 const { DisTube } = require("distube")
 
@@ -23,6 +24,8 @@ client.DisTube = new DisTube(client, {
 const jokes = require('./jokes.js')
 const music = require('./music.js')
 const antiSpam = require('./antispam.js')
+const ban = require('./moderation/ban.js')
+const kick = require('./moderation/kick.js')
 
 //COMPORTAMIENTO BOT CUANDO SE AÑADEN CANCIONES
 client.DisTube.on('playSong', (queue, song) =>
@@ -88,6 +91,15 @@ client.on("messageCreate", message => {
 
 	if (message.content.toLowerCase() === (config.prefix +"joke")) {
 		jokes.jokeEN(message)
+	}
+
+	//MODERACION
+	if (args.shift().toLowerCase() === "ban" && args.length > 0) {
+		ban.banUser(args, message)
+	}
+	
+	if (args.shift().toLowerCase() === "kick" && args.length > 0) {
+		kick.kickUser(args, message)
 	}
 })
 
