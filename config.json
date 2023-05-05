@@ -1,4 +1,7 @@
 {
 	"prefix": "*",
-	"token": "MTA4NjIxMzMyMzU5MjMwNjcyOA.GpSdXI.l0RBkSXbajsSBp3kz1RZEQVkZuJ6HksGJJBuQE"
+	"token": "MTA4NjIxMzMyMzU5MjMwNjcyOA.GpSdXI.l0RBkSXbajsSBp3kz1RZEQVkZuJ6HksGJJBuQE",
+	"verifyChannelId": "1103276078660853840",
+	"newUserRoleName": "New",
+	"verifiedUserRoleName": "Verified"
 }

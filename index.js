@@ -50,11 +50,11 @@ client.on("messageCreate", message => {
 	const prefix = config.prefix
 
 	//VERIFICACIÓN
-	if (message.channel.id==='1103276078660853840') {
+	if (message.channel.id===config.verifyChannelId) {
 		if (message.content.toLowerCase() === (config.prefix +"verify")) {
 			message.delete()
-			message.member.roles.add(message.guild.roles.cache.find(r => r.name === 'Verified'))
-			message.member.roles.remove(message.guild.roles.cache.find(r => r.name === 'New'))
+			message.member.roles.add(message.guild.roles.cache.find(r => r.name === config.verifiedUserRoleName))
+			message.member.roles.remove(message.guild.roles.cache.find(r => r.name === config.newUserRoleName))
 			//SOLO PERMITE ESCRIBIR VERIFY
 		} else {
 			message.delete()
@@ -93,7 +93,7 @@ client.on("messageCreate", message => {
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
-	var role= member.guild.roles.cache.find(role => role.name === "New");
+	var role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
 	member.roles.add(role);
 	const welcomeChannel = member.guild.channels.cache.find(c => c.name === 'welcome')
 	welcomeChannel.send('Welcome ' + member.user.username + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
