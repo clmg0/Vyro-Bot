@@ -7,8 +7,8 @@ const music = require('./commands/music.js')
 const antiSpam = require('./commands/antispam.js')
 const quote = require('./commands/quote.js')
 const weather = require('./commands/weather.js')
-const ban = require('./moderation/ban.js')
-const kick = require('./moderation/kick.js')
+const ban = require('./commands/ban.js')
+const kick = require('./commands/kick.js')
 
 //INSTANCIA CLIENTE DISCORD
 const client = new discord.Client({
