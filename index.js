@@ -16,7 +16,11 @@ const { DisTube } = require("distube")
 const jokes = require('./jokes.js')
 const music = require('./music.js')
 const antiSpam = require('./antispam.js')
-const verify = require('./verify.js')
+const quoteBreakingBad = require('./quoteBreakingBad.js')
+const quoteGameOfThrones = require('./quoteGOT.js')
+const quoteStrangersThings = require('./quoteStrangersThings.js')
+const quoteLucifer = require('./quoteLucifer.js')
+const quoteMotivational = require('./quoteMotivational.js')
 
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
@@ -83,6 +87,28 @@ client.on("messageCreate", message => {
 	if (message.content.toLowerCase() === (config.prefix +"joke")) {
 		jokes.jokeEN(message)
 	}
+
+	//FRASES FAMOSAS
+	if (message.content.toLowerCase() === (config.prefix +"bbquote")) {
+		quoteBreakingBad.quoteBreakingBad(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"gotquote")) {
+		quoteGameOfThrones.quoteGameOfThrones(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"stquote")) {
+		quoteStrangersThings.quoteStrangersThings(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"luciferquote")) {
+		quoteLucifer.quoteLucifer(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"positivequote")) {
+		quoteMotivational.quoteMotivational(message)
+	}
+
 })
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
