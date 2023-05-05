@@ -2,7 +2,7 @@
 Bot de discord destinado a hacer todo tipo de funciones.
 
 config.json
-
+```
 {
 	"prefix": "",
 	"token": "",
@@ -10,3 +10,4 @@ config.json
 	"newUserRoleName": "",
 	"verifiedUserRoleName": ""
 }
+```
