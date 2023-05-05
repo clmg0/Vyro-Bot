@@ -1,8 +1,9 @@
 # Vyro-Bot
-Bot de discord destinado a hacer todo tipo de funciones.
+Bot de discord escrito en JavaScript y usando la librearia discord-js v14.
 
-config.json
-```
+TODO: COMANDOS
+
+```config.json
 {
 	"prefix": "",
 	"token": "",
