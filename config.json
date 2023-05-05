@@ -3,7 +3,5 @@
 	"token": "MTA4NjIxMzMyMzU5MjMwNjcyOA.GpSdXI.l0RBkSXbajsSBp3kz1RZEQVkZuJ6HksGJJBuQE",
 	"verifyChannelId": "1103276078660853840",
 	"newUserRoleName": "New",
-	"verifiedUserRoleName": "Verified",
-	"testServer": "1092387834784133174",
-	"devs": ["323395038346346497", "269555578672513024", "210130758554222592", "225326651922186240"]
+	"verifiedUserRoleName": "Verified"
 }
