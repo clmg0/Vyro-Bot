@@ -111,6 +111,7 @@ client.on("messageCreate", message => {
 			break
 	}
 })
+
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
 	let role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
