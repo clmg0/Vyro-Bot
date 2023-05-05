@@ -1,37 +1,45 @@
-const config = require('../config.json')
-
 function kickUser(args, message) {
-    const targetUser = args[1]
-    const reason = args[2]
+    const reason = args[2]?.value || "No reason given."
 
     //Busqueda de usuarios
-    let userFound = message.guild.members.find(user => user.username == targetUser)
-    let userRequesterFound = message.user
-    let userMentioned = message.mentions.users.first()
-    let botFound = message.guild.members.find(user => user.username == config.botName)
+    let userTargetFound = message.mentions.members.first()
+    let userRequesterFound = message.author
+    let botFound = message.guild.members.me
 
     //Busqueda de roles
-    let requesterRole = message.user.member.get.roles.highest.position
-    let targetRole = userMentioned.member.get.roles.highest.position
-    let botRole = botFound.member.get.roles.highest.position
+    let requesterRole = message.member.roles.highest.position
+    let targetRole = userTargetFound.roles.highest.position
+    let botRole = botFound.roles.highest.position
 
-    if (requesterRole <= targetRole) {
-        message.channel.send("The user" + userFound + " can't be kicked because he has a higher role than you.");
+    if (requesterRole < targetRole) {
+        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a higher role than you.");
         return
-    } else if (targetRole >= botRole) {
-        message.channel.send("The user" + userFound + " can't be kicked because he has a higher role than the bot.");
+    } else if (targetRole > botRole) {
+        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a higher role than the bot.");
         return
-    } else if (userTargetFound == botFound) {
+    } else if (targetRole === botRole) {
+        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a the same role than the bot.");
+        return
+    } else if (targetRole === requesterRole) {
+        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a the same role than you.");
+        return
+    } else if (userTargetFound.id == botFound.id) {
         message.channel.send("I can't kick myself.");
         return
-    } else if (userTargetFound == userRequesterFound) {
+    } else if (userTargetFound.id == userRequesterFound.id) {
         message.channel.send("You can't kick yourself.");
         return
     } else {
-        client.users.get(userFound).send("You have been kicked from the server for: " + reason + ".");
-        user.kick({ reason: reason });
-        message.channel.send("The user" + userFound + " has been kicked for: " + reason + ".");
-        return
+        try {
+            userTargetFound.send("You have been kicked from the server for: " + reason + ".");
+            setTimeout(function(){
+                userTargetFound.kick({ reason: reason });
+            },1000 * 10)
+            message.channel.send("The user " + userTargetFound + " has been kicked for: " + reason + "; " + days + " days.");
+            return
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

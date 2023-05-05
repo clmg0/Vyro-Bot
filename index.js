@@ -75,7 +75,7 @@ client.on("messageCreate", message => {
 	//CHECK SI EL USUARIO ESTA EN UN CANAL DE VOZ PARA PERMITIR FUNCIONES DE MUSICA
 	if(message.member.voice.channel) {
 		//FUNCION DE PLAY/ADD
-		if (args.shift().toLowerCase() === "play" && args.length > 0) {
+		if (args[0].toLowerCase() === "play" && args.length > 0) {
 			music.playSong(message, args, client.DisTube)
 			
 		} else if (Queue !== undefined) {
@@ -94,11 +94,11 @@ client.on("messageCreate", message => {
 	}
 
 	//MODERACION
-	if (args.shift().toLowerCase() === "ban" && args.length > 0) {
+	if (args[0].toLowerCase() === "ban" && args.length > 0) {
 		ban.banUser(args, message)
 	}
 	
-	if (args.shift().toLowerCase() === "kick" && args.length > 0) {
+	if (args[0].toLowerCase() === "kick" && args.length > 0) {
 		kick.kickUser(args, message)
 	}
 })
