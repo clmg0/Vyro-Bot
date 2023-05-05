@@ -82,39 +82,49 @@ client.on("messageCreate", message => {
         case "chiste":
             jokes.jokeES(message);
             break;
+
         case "joke":
             jokes.jokeEN(message);
             break;
+
         case "bbquote":
             quote.quoteBreakingBad(message);
             break;
+
         case "gotquote":
             quote.quoteGameOfThrones(message);
             break;
+
         case "stquote":
             quote.quoteStrangersThings(message);
             break;
+
         case "luciferquote":
             quote.quoteLucifer(message);
             break;
+
         case "positivequote":
             quote.quoteMotivational(message);
             break;
+
         case "weather":
             if (args.length > 1) {
                 weather.weatherCity(message, args[1]);
             }
             break;
+
         case "ban":
             if (args.length > 1) {
                 ban.banUser(args, message);
             }
             break;
+
         case "kick":
             if (args.length > 1) {
                 kick.kickUser(args, message);
             }
             break;
+
         default:
             break;
     }
