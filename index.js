@@ -78,44 +78,54 @@ client.on("messageCreate", message => {
 			//SI EXISTE LA COLA DE REPRODUCCIÓN
 			music.musicQueueFunctions(Queue, message, client.DisTube)
 		}
+
+		return
 	}
 
 	//CHISTES
 	if (message.content.toLowerCase() === (config.prefix +"chiste")) {
 		jokes.jokeES(message)
+		return
 	}
 
 	if (message.content.toLowerCase() === (config.prefix +"joke")) {
 		jokes.jokeEN(message)
+		return
 	}
 
 	//TIEMPO
 	
-	if (args[0].toLowerCase() === "weather"){
+	if (args[0].toLowerCase() === "weather") {
 		weather.weatherCity(message, args[1])
+		return
 	}
   
 	//FRASES FAMOSAS
 	if (message.content.toLowerCase() === (config.prefix +"bbquote")) {
 		quoteBreakingBad.quoteBreakingBad(message)
+		return
 	}
 
 	if (message.content.toLowerCase() === (config.prefix +"gotquote")) {
 		quoteGameOfThrones.quoteGameOfThrones(message)
+		return
 	}
 
 	if (message.content.toLowerCase() === (config.prefix +"stquote")) {
 		quoteStrangersThings.quoteStrangersThings(message)
+		return
 	}
 
 	if (message.content.toLowerCase() === (config.prefix +"luciferquote")) {
 		quoteLucifer.quoteLucifer(message)
+		return
 	}
 
 	if (message.content.toLowerCase() === (config.prefix +"positivequote")) {
 		quoteMotivational.quoteMotivational(message)
+		return
 	}
-
+})
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
 	let role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
