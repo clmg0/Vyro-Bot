@@ -11,44 +11,49 @@ function playSong(message, args, musicClient) {
 
 //FUNCIONES DE MUSICA SI HAY COLA EN REPRODUCCIÓN
 function musicQueueFunctions(Queue, message, musicClient) {
-	//SHUFFLE DE LA COLA
-	if (message.content.toLowerCase() === (config.prefix +"shuffle")) {
-		Queue = musicClient.shuffle(message);
-		message.channel.send("Shuffled the queue!");
-		return
-	}
+	switch(message.content.toLowerCase()) {
+		//SHUFFLE DE LA COLA
+		case config.prefix + "shuffle":
+			Queue = musicClient.shuffle(message);
+			message.channel.send("Shuffled the queue!");
+			break;
+		
+		//VER COLA DE CANCIONES
+		case config.prefix + "songs":
+			songList = '';
+			Queue.songs.forEach(function (value, i) {
+				songList = songList + "\n" + i + ".- " + value.name + '. RQB: ' + value.user.tag
+			});
+			message.channel.send(songList);
+			break;
 
-	//VER COLA DE CANCIONES
-	if (message.content.toLowerCase() === (config.prefix +"songs")) {
-		songList = ''
-		Queue.songs.forEach(function (value, i) {
-			songList = songList + "\n" + i + ".- " + value.name + '. RQB: ' + value.user.tag
-		});
-		message.channel.send(songList);
-		return
-	}
+		//FUNCIÓN DE PAUSE, RESUME		
+		case config.prefix + "pause":
+			if (Queue.paused) {
+				musicClient.resume(message);
+			} else {
+				musicClient.pause(message);
+			}
+			break;
 
-	//FUNCIÓN DE PAUSE, RESUME
-	if (message.content.toLowerCase() === (config.prefix +"pause")) {
-		if (Queue.paused) {
-			musicClient.resume(message);
-		} else {
-			musicClient.pause(message);
-		}
-		return
-	}
+		//FUNCION DE STOP
+		case config.prefix + "stop":
+			musicClient.stop(message);
+			message.channel.send("Stopped the queue!");
+			break;
+			
+		//FUNCION DE SKIP, SI SOLO HAY UNA CANCION SE EVITA
+		case config.prefix + "skip":
+			if (Queue.songs.length <= 1) {
+				message.channel.send("Can't skip, no next song!");
+			} else {
+				musicClient.skip(message);
+			}
+			
+			break;
 	
-	//FUNCION DE STOP
-	if (message.content.toLowerCase() === (config.prefix +"stop")) {
-		musicClient.stop(message);
-        message.channel.send("Stopped the queue!");
-		return
-	}
-
-	//FUNCION DE SKIP, SI SOLO HAY UNA CANCION SE EVITA
-	if (Queue.songs.length <= 1) return
-	if (message.content.toLowerCase() === (config.prefix +"skip")) {
-		musicClient.skip(message);
+		default:
+			break;
 	}
 }
 
