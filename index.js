@@ -77,20 +77,26 @@ client.on("messageCreate", message => {
         return;
     }
 
-	//WEATHER
-    if (args[0].toLowerCase() === "weather" && args.length > 1) {
-        weather.weatherCity(message, args[1]);
-        return;
+    //WEATHER, BAN && KICK
+	switch(args[0].toLowerCase()) {
+        case "weather":
+            if (args.length > 1) {
+                weather.weatherCity(message, args[1]);
+            }
+            break;
+        case "ban":
+            if (args.length > 1) {
+                ban.banUser(args, message);
+            }
+            break;
+        case "kick":
+            if (args.length > 1) {
+                kick.kickUser(args, message);
+            }
+            break;
+        default:
+                break;
     }
-    
-  //MODERACION
-	if (args[0].toLowerCase() === "ban" && args.length > 1) {
-		ban.banUser(args, message)
-	}
-	
-	if (args[0].toLowerCase() === "kick" && args.length > 1) {
-		kick.kickUser(args, message)
-	}
 
 	//MISCELANEO, CHISTES, QUOTES, ETC.
     switch (args[0].toLowerCase()) {
