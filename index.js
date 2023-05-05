@@ -1,6 +1,15 @@
 //IMPORTS
 
 const discord = require("discord.js")
+const config = require('./config.json')
+const { DisTube } = require("distube")
+const jokes = require('./commands/jokes.js')
+const music = require('./commands/music.js')
+const antiSpam = require('./commands/antispam.js')
+const quote = require('./commands/quote.js')
+const weather = require('./commands/weather.js')
+
+//INSTANCIA CLIENTE DISCORD
 const client = new discord.Client({
 	intents: [
 		"Guilds",
@@ -10,15 +19,8 @@ const client = new discord.Client({
 		"GuildMembers"
 	]
 })
-const config = require('./config.json')
-const { DisTube } = require("distube")
 
-const jokes = require('./commands/jokes.js')
-const music = require('./commands/music.js')
-const antiSpam = require('./commands/antispam.js')
-const quote = require('./commands/quote.js')
-const weather = require('./commands/weather.js')
-
+//INSTANCIA CLIENTE DISTUBE
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
 	leaveOnFinish: true,
@@ -49,8 +51,10 @@ client.on("ready", client => {
 client.on("messageCreate", message => {
 	if (message.author.bot || !message.guild) return;
     
+	//ANTISPAM, MANDA MENSAJE SI CUMPLE REQUISITOS
     antiSpam.spamObj.message(message);
     
+	//VERIFICACIÓN
     if (message.channel.id === config.verifyChannelId) {
         verify.verify(message);
         return;
@@ -62,6 +66,7 @@ client.on("messageCreate", message => {
 
     if (!message.content.toLowerCase().startsWith(prefix)) return;
 
+	//MUSICA, SOLO SI USER ESTA EN CANAL DE VOZ
     if (message.member.voice.channel) {
         if (args[0].toLowerCase() === "play" && args.length > 1) {
             music.playSong(message, args, client.DisTube);
@@ -71,11 +76,13 @@ client.on("messageCreate", message => {
         return;
     }
 
+	//WEATHER
     if (args[0].toLowerCase() === "weather" && args.length > 1) {
         weather.weatherCity(message, args[1]);
         return;
     }
 
+	//MISCELANEO, CHISTES, QUOTES, ETC.
     switch (args[0].toLowerCase()) {
         case "chiste":
             jokes.jokeES(message);
