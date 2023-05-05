@@ -13,6 +13,16 @@ const client = new discord.Client({
 const config = require('./config.json')
 const { DisTube } = require("distube")
 
+const jokes = require('./jokes.js')
+const music = require('./music.js')
+const antiSpam = require('./antispam.js')
+const quoteBreakingBad = require('./quoteBreakingBad.js')
+const quoteGameOfThrones = require('./quoteGOT.js')
+const quoteStrangersThings = require('./quoteStrangersThings.js')
+const quoteLucifer = require('./quoteLucifer.js')
+const quoteMotivational = require('./quoteMotivational.js')
+const weather = require('./weather.js')
+
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
 	leaveOnFinish: true,
@@ -20,10 +30,6 @@ client.DisTube = new DisTube(client, {
 	emitAddSongWhenCreatingQueue: false,
 	emitAddListWhenCreatingQueue: false,
 })
-const jokes = require('./jokes.js')
-const music = require('./music.js')
-const antiSpam = require('./antispam.js')
-const weather = require('./weather.js')
 
 //COMPORTAMIENTO BOT CUANDO SE AÑADEN CANCIONES
 client.DisTube.on('playSong', (queue, song) =>
@@ -51,16 +57,8 @@ client.on("messageCreate", message => {
 	const prefix = config.prefix
 
 	//VERIFICACIÓN
-	if (message.channel.id===config.verifyChannelId) {
-		if (message.content.toLowerCase() === (config.prefix +"verify")) {
-			message.delete()
-			message.member.roles.add(message.guild.roles.cache.find(r => r.name === config.verifiedUserRoleName))
-			message.member.roles.remove(message.guild.roles.cache.find(r => r.name === config.newUserRoleName))
-			//SOLO PERMITE ESCRIBIR VERIFY
-		} else {
-			message.delete()
-		}
-
+	if (message.channel.id===config.verifyChannelId) {		
+		verify.verify(message)
 		return
 	}
 
@@ -95,21 +93,35 @@ client.on("messageCreate", message => {
 	
 	if (args[0].toLowerCase() === "weather"){
 		weather.weatherCity(message, args[1])
-
 	}
-})
+  
+	//FRASES FAMOSAS
+	if (message.content.toLowerCase() === (config.prefix +"bbquote")) {
+		quoteBreakingBad.quoteBreakingBad(message)
+	}
 
+	if (message.content.toLowerCase() === (config.prefix +"gotquote")) {
+		quoteGameOfThrones.quoteGameOfThrones(message)
+	}
 
+	if (message.content.toLowerCase() === (config.prefix +"stquote")) {
+		quoteStrangersThings.quoteStrangersThings(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"luciferquote")) {
+		quoteLucifer.quoteLucifer(message)
+	}
+
+	if (message.content.toLowerCase() === (config.prefix +"positivequote")) {
+		quoteMotivational.quoteMotivational(message)
+	}
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
-	var role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
+	let role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
 	member.roles.add(role);
 	const welcomeChannel = member.guild.channels.cache.find(c => c.name === 'welcome')
-	welcomeChannel.send('Welcome ' + member.user.username + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
+	welcomeChannel.send('Welcome ' + discord.userMention(member.user.id) + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
 })
-
-
-
 
 client.login(config.token)

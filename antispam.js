@@ -13,7 +13,7 @@ const spamObj = new AntiSpam({
 	unMuteTime: 60, // Time in minutes before the user will be able to send messages again.
 	verbose: true, // Whether or not to log every action in the console.
 	removeMessages: true, // Whether or not to remove all messages sent by the user.
-	ignoredPermissions: [PermissionsBitField.Administrator], // If the user has the following permissions, ignore him.
+	ignoredPermissions: [PermissionsBitField.Flags.Administrator], // If the user has the following permissions, ignore him.
 });
 
 module.exports = { spamObj }
