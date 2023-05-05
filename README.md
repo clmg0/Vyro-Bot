@@ -19,7 +19,7 @@ TO-DO
 	"verifiedUserRoleName": ""
 }
 ```
-### Dependencies
+### Node.js v18.16.0 Dependencies
 ```
 {
   "dependencies": {
