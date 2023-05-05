@@ -47,69 +47,60 @@ client.on("ready", client => {
 
 //EVENTO MENSAJE DE USUARIO
 client.on("messageCreate", message => {
-	if (message.author.bot || !message.guild) return
+	if (message.author.bot || !message.guild) return;
+    
+    antiSpam.spamObj.message(message);
+    
+    if (message.channel.id === config.verifyChannelId) {
+        verify.verify(message);
+        return;
+    }
+	
+	const prefix = config.prefix;
+	const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const queue = client.DisTube.getQueue(message);
 
-	antiSpam.spamObj.message(message)
-	const prefix = config.prefix
+    if (!message.content.toLowerCase().startsWith(prefix)) return;
 
-	//VERIFICACIÓN
-	if (message.channel.id===config.verifyChannelId) {		
-		verify.verify(message)
-		return
-	}
+    if (message.member.voice.channel) {
+        if (args[0].toLowerCase() === "play" && args.length > 1) {
+            music.playSong(message, args, client.DisTube);
+        } else if (queue) {
+            music.musicQueueFunctions(queue, message, client.DisTube);
+        }
+        return;
+    }
 
-	//SI EL MENSAJE NO EMPIEZA POR ASTERISCO SALE DE LA FUNCIÓN, NO ES UN COMANDO
-	if (!message.content.toLowerCase().startsWith(prefix)) return
+    if (args[0].toLowerCase() === "weather" && args.length > 1) {
+        weather.weatherCity(message, args[1]);
+        return;
+    }
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/g)
-	let Queue = client.DisTube.getQueue(message)
-
-	//CHECK SI EL USUARIO ESTA EN UN CANAL DE VOZ PARA PERMITIR FUNCIONES DE MUSICA
-	if(message.member.voice.channel) {
-		//FUNCION DE PLAY/ADD
-		if (args[0].toLowerCase() === "play" && args.length > 0) {
-			music.playSong(message, args, client.DisTube)
-			
-		} else if (Queue !== undefined) {
-			//SI EXISTE LA COLA DE REPRODUCCIÓN
-			music.musicQueueFunctions(Queue, message, client.DisTube)
-		}
-
-		return
-	}
-
-	//TIEMPO
-	if (args[0].toLowerCase() === "weather") {
-		weather.weatherCity(message, args[1])
-		return
-	}
-
-	//COMANDOS BASICOS, CHISTES, QUOTES, ETC.
-	switch (message.content.toLowerCase()) {
-		case config.prefix + "chiste":
-			jokes.jokeES(message)
-			break
-		case config.prefix + "joke":
-			jokes.jokeEN(message)
-			break
-		case config.prefix + "bbquote":
-			quote.quoteBreakingBad(message)
-			break
-		case config.prefix + "gotquote":
-			quote.quoteGameOfThrones(message)
-			break
-		case config.prefix + "stquote":
-			quote.quoteStrangersThings(message)
-			break
-		case config.prefix + "luciferquote":
-			quote.quoteLucifer(message)
-			break
-		case config.prefix + "positivequote":
-			quote.quoteMotivational(message)
-			break
-		default:
-			break
-	}
+    switch (args[0].toLowerCase()) {
+        case "chiste":
+            jokes.jokeES(message);
+            break;
+        case "joke":
+            jokes.jokeEN(message);
+            break;
+        case "bbquote":
+            quote.quoteBreakingBad(message);
+            break;
+        case "gotquote":
+            quote.quoteGameOfThrones(message);
+            break;
+        case "stquote":
+            quote.quoteStrangersThings(message);
+            break;
+        case "luciferquote":
+            quote.quoteLucifer(message);
+            break;
+        case "positivequote":
+            quote.quoteMotivational(message);
+            break;
+        default:
+            break;
+    }
 })
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
