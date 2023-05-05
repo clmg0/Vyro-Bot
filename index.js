@@ -1,5 +1,4 @@
 //IMPORTS
-
 const discord = require("discord.js")
 const config = require('./config.json')
 const { DisTube } = require("distube")
@@ -8,6 +7,8 @@ const music = require('./commands/music.js')
 const antiSpam = require('./commands/antispam.js')
 const quote = require('./commands/quote.js')
 const weather = require('./commands/weather.js')
+const ban = require('./moderation/ban.js')
+const kick = require('./moderation/kick.js')
 
 //INSTANCIA CLIENTE DISCORD
 const client = new discord.Client({
@@ -81,6 +82,15 @@ client.on("messageCreate", message => {
         weather.weatherCity(message, args[1]);
         return;
     }
+    
+  //MODERACION
+	if (args[0].toLowerCase() === "ban" && args.length > 1) {
+		ban.banUser(args, message)
+	}
+	
+	if (args[0].toLowerCase() === "kick" && args.length > 1) {
+		kick.kickUser(args, message)
+	}
 
 	//MISCELANEO, CHISTES, QUOTES, ETC.
     switch (args[0].toLowerCase()) {
