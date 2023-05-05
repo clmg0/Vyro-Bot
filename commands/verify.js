@@ -1,4 +1,4 @@
-const config = require('./config.json')
+const config = require('../config.json')
 
 function verify(message) {
 	if (message.content.toLowerCase() === (config.prefix +"verify")) {

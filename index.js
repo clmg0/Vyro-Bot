@@ -13,15 +13,11 @@ const client = new discord.Client({
 const config = require('./config.json')
 const { DisTube } = require("distube")
 
-const jokes = require('./jokes.js')
-const music = require('./music.js')
-const antiSpam = require('./antispam.js')
-const quoteBreakingBad = require('./quoteBreakingBad.js')
-const quoteGameOfThrones = require('./quoteGOT.js')
-const quoteStrangersThings = require('./quoteStrangersThings.js')
-const quoteLucifer = require('./quoteLucifer.js')
-const quoteMotivational = require('./quoteMotivational.js')
-const weather = require('./weather.js')
+const jokes = require('./commands/jokes.js')
+const music = require('./commands/music.js')
+const antiSpam = require('./commands/antispam.js')
+const quote = require('./commands/quote.js')
+const weather = require('./commands/weather.js')
 
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
@@ -82,48 +78,37 @@ client.on("messageCreate", message => {
 		return
 	}
 
-	//CHISTES
-	if (message.content.toLowerCase() === (config.prefix +"chiste")) {
-		jokes.jokeES(message)
-		return
-	}
-
-	if (message.content.toLowerCase() === (config.prefix +"joke")) {
-		jokes.jokeEN(message)
-		return
-	}
-
 	//TIEMPO
-	
 	if (args[0].toLowerCase() === "weather") {
 		weather.weatherCity(message, args[1])
 		return
 	}
-  
-	//FRASES FAMOSAS
-	if (message.content.toLowerCase() === (config.prefix +"bbquote")) {
-		quoteBreakingBad.quoteBreakingBad(message)
-		return
-	}
 
-	if (message.content.toLowerCase() === (config.prefix +"gotquote")) {
-		quoteGameOfThrones.quoteGameOfThrones(message)
-		return
-	}
-
-	if (message.content.toLowerCase() === (config.prefix +"stquote")) {
-		quoteStrangersThings.quoteStrangersThings(message)
-		return
-	}
-
-	if (message.content.toLowerCase() === (config.prefix +"luciferquote")) {
-		quoteLucifer.quoteLucifer(message)
-		return
-	}
-
-	if (message.content.toLowerCase() === (config.prefix +"positivequote")) {
-		quoteMotivational.quoteMotivational(message)
-		return
+	//COMANDOS BASICOS, CHISTES, QUOTES, ETC.
+	switch (message.content.toLowerCase()) {
+		case config.prefix + "chiste":
+			jokes.jokeES(message)
+			break
+		case config.prefix + "joke":
+			jokes.jokeEN(message)
+			break
+		case config.prefix + "bbquote":
+			quote.quoteBreakingBad(message)
+			break
+		case config.prefix + "gotquote":
+			quote.quoteGameOfThrones(message)
+			break
+		case config.prefix + "stquote":
+			quote.quoteStrangersThings(message)
+			break
+		case config.prefix + "luciferquote":
+			quote.quoteLucifer(message)
+			break
+		case config.prefix + "positivequote":
+			quote.quoteMotivational(message)
+			break
+		default:
+			break
 	}
 })
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
