@@ -1,3 +1,5 @@
+const discord = require("discord.js")
+
 function banUser(args, message) {
     const reason = args[2]?.value || "No reason given."
     const days = args[3]?.value || 5
@@ -13,16 +15,16 @@ function banUser(args, message) {
     let botRole = botFound.roles.highest.position
 
     if (requesterRole < targetRole) {
-        message.channel.send("The user " + userTargetFound + " can't be banned because he has a higher role than you.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be banned because he has a higher role than you.");
         return
     } else if (targetRole > botRole) {
-        message.channel.send("The user " + userTargetFound + " can't be banned because he has a higher role than the bot.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be banned because he has a higher role than the bot.");
         return
     } else if (targetRole === botRole) {
-        message.channel.send("The user " + userTargetFound + " can't be banned because he has a the same role than the bot.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be banned because he has a the same role than the bot.");
         return
     } else if (targetRole === requesterRole) {
-        message.channel.send("The user " + userTargetFound + " can't be banned because he has a the same role than you.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be banned because he has a the same role than you.");
         return
     } else if (userTargetFound.id == botFound.id) {
         message.channel.send("I can't ban myself.");
@@ -36,7 +38,7 @@ function banUser(args, message) {
             setTimeout(function(){
                 userTargetFound.ban({ days: days, reason: reason });
             },1000 * 10)
-            message.channel.send("The user " + userTargetFound + " has been banned for: " + reason + "; " + days + " days.");
+            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been banned for: " + reason + "; " + days + " days.");
             return
         } catch (error) {
             console.log(error)

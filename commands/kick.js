@@ -1,3 +1,5 @@
+const discord = require("discord.js")
+
 function kickUser(args, message) {
     const reason = args[2]?.value || "No reason given."
 
@@ -12,16 +14,16 @@ function kickUser(args, message) {
     let botRole = botFound.roles.highest.position
 
     if (requesterRole < targetRole) {
-        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a higher role than you.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be kicked because he has a higher role than you.");
         return
     } else if (targetRole > botRole) {
-        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a higher role than the bot.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be kicked because he has a higher role than the bot.");
         return
     } else if (targetRole === botRole) {
-        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a the same role than the bot.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be kicked because he has a the same role than the bot.");
         return
     } else if (targetRole === requesterRole) {
-        message.channel.send("The user " + userTargetFound + " can't be kicked because he has a the same role than you.");
+        message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " can't be kicked because he has a the same role than you.");
         return
     } else if (userTargetFound.id == botFound.id) {
         message.channel.send("I can't kick myself.");
@@ -35,7 +37,7 @@ function kickUser(args, message) {
             setTimeout(function(){
                 userTargetFound.kick({ reason: reason });
             },1000 * 10)
-            message.channel.send("The user " + userTargetFound + " has been kicked for: " + reason + "; " + days + " days.");
+            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been kicked for: " + reason + "; " + days + " days.");
             return
         } catch (error) {
             console.log(error)
