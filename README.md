@@ -2,9 +2,9 @@
 
 ![Vyro Logo](https://media.discordapp.net/attachments/1092408398307397732/1092409287835390042/image.png)
 
-Lightweight Discord Bot written in JavaScript and discord-js v14.
+Lightweight Discord Bot with various functions, including music. Written in JavaScript with Node.js v18 and using discord-js v14.
 
-Bot de Discord liviano escrito en JavaScript y discord-js v14.
+Bot de Discord liviano con varias funciones, incluyendo música. Escrito en JavaScript con Node.js v18 y usando discord-js v14.
 
 ### COMMANDS/COMANDOS
 TO-DO
@@ -19,7 +19,7 @@ TO-DO
 	"verifiedUserRoleName": ""
 }
 ```
-### Dependencies
+### Node.js v18
 ```
 {
   "dependencies": {

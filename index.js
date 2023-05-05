@@ -1,6 +1,16 @@
 //IMPORTS
 const discord = require("discord.js")
+const config = require('./config.json')
+const { DisTube } = require("distube")
+const jokes = require('./commands/jokes.js')
+const music = require('./commands/music.js')
+const antiSpam = require('./commands/antispam.js')
+const quote = require('./commands/quote.js')
+const weather = require('./commands/weather.js')
+const ban = require('./moderation/ban.js')
+const kick = require('./moderation/kick.js')
 
+//INSTANCIA CLIENTE DISCORD
 const client = new discord.Client({
 	intents: [
 		"Guilds",
@@ -11,9 +21,7 @@ const client = new discord.Client({
 	]
 })
 
-const config = require('./config.json')
-const { DisTube } = require("distube")
-
+//INSTANCIA CLIENTE DISTUBE
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
 	leaveOnFinish: true,
@@ -21,11 +29,6 @@ client.DisTube = new DisTube(client, {
 	emitAddSongWhenCreatingQueue: false,
 	emitAddListWhenCreatingQueue: false,
 })
-const jokes = require('./jokes.js')
-const music = require('./music.js')
-const antiSpam = require('./antispam.js')
-const ban = require('./moderation/ban.js')
-const kick = require('./moderation/kick.js')
 
 //COMPORTAMIENTO BOT CUANDO SE AÑADEN CANCIONES
 client.DisTube.on('playSong', (queue, song) =>
@@ -47,68 +50,82 @@ client.on("ready", client => {
 
 //EVENTO MENSAJE DE USUARIO
 client.on("messageCreate", message => {
-	if (message.author.bot || !message.guild) return
-
-	antiSpam.spamObj.message(message)
-	const prefix = config.prefix
-
+	if (message.author.bot || !message.guild) return;
+    
+	//ANTISPAM, MANDA MENSAJE SI CUMPLE REQUISITOS
+    antiSpam.spamObj.message(message);
+    
 	//VERIFICACIÓN
-	if (message.channel.id===config.verifyChannelId) {
-		if (message.content.toLowerCase() === (config.prefix +"verify")) {
-			message.delete()
-			message.member.roles.add(message.guild.roles.cache.find(r => r.name === config.verifiedUserRoleName))
-			message.member.roles.remove(message.guild.roles.cache.find(r => r.name === config.newUserRoleName))
-			//SOLO PERMITE ESCRIBIR VERIFY
-		} else {
-			message.delete()
-		}
+    if (message.channel.id === config.verifyChannelId) {
+        verify.verify(message);
+        return;
+    }
+	
+	const prefix = config.prefix;
+	const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const queue = client.DisTube.getQueue(message);
 
-		return
-	}
+    if (!message.content.toLowerCase().startsWith(prefix)) return;
 
-	//SI EL MENSAJE NO EMPIEZA POR ASTERISCO SALE DE LA FUNCIÓN, NO ES UN COMANDO
-	if (!message.content.toLowerCase().startsWith(prefix)) return
+	//MUSICA, SOLO SI USER ESTA EN CANAL DE VOZ
+    if (message.member.voice.channel) {
+        if (args[0].toLowerCase() === "play" && args.length > 1) {
+            music.playSong(message, args, client.DisTube);
+        } else if (queue) {
+            music.musicQueueFunctions(queue, message, client.DisTube);
+        }
+        return;
+    }
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/g)
-	let Queue = client.DisTube.getQueue(message)
-
-	//CHECK SI EL USUARIO ESTA EN UN CANAL DE VOZ PARA PERMITIR FUNCIONES DE MUSICA
-	if(message.member.voice.channel) {
-		//FUNCION DE PLAY/ADD
-		if (args[0].toLowerCase() === "play" && args.length > 0) {
-			music.playSong(message, args, client.DisTube)
-			
-		} else if (Queue !== undefined) {
-			//SI EXISTE LA COLA DE REPRODUCCIÓN
-			music.musicQueueFunctions(Queue, message, client.DisTube)
-		}
-	}
-
-	//CHISTES
-	if (message.content.toLowerCase() === (config.prefix +"chiste")) {
-		jokes.jokeES(message)
-	}
-
-	if (message.content.toLowerCase() === (config.prefix +"joke")) {
-		jokes.jokeEN(message)
-	}
-
-	//MODERACION
-	if (args[0].toLowerCase() === "ban" && args.length > 0) {
+	//WEATHER
+    if (args[0].toLowerCase() === "weather" && args.length > 1) {
+        weather.weatherCity(message, args[1]);
+        return;
+    }
+    
+  //MODERACION
+	if (args[0].toLowerCase() === "ban" && args.length > 1) {
 		ban.banUser(args, message)
 	}
 	
-	if (args[0].toLowerCase() === "kick" && args.length > 0) {
+	if (args[0].toLowerCase() === "kick" && args.length > 1) {
 		kick.kickUser(args, message)
 	}
+
+	//MISCELANEO, CHISTES, QUOTES, ETC.
+    switch (args[0].toLowerCase()) {
+        case "chiste":
+            jokes.jokeES(message);
+            break;
+        case "joke":
+            jokes.jokeEN(message);
+            break;
+        case "bbquote":
+            quote.quoteBreakingBad(message);
+            break;
+        case "gotquote":
+            quote.quoteGameOfThrones(message);
+            break;
+        case "stquote":
+            quote.quoteStrangersThings(message);
+            break;
+        case "luciferquote":
+            quote.quoteLucifer(message);
+            break;
+        case "positivequote":
+            quote.quoteMotivational(message);
+            break;
+        default:
+            break;
+    }
 })
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
-	var role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
+	let role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
 	member.roles.add(role);
 	const welcomeChannel = member.guild.channels.cache.find(c => c.name === 'welcome')
-	welcomeChannel.send('Welcome ' + member.user.username + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
+	welcomeChannel.send('Welcome ' + discord.userMention(member.user.id) + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
 })
 
 client.login(config.token)

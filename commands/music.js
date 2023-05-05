@@ -1,4 +1,4 @@
-const config = require('./config.json')
+const config = require('../config.json')
 
 //FUNCION DE PLAY/ADD
 function playSong(message, args, musicClient) {
@@ -22,7 +22,7 @@ function musicQueueFunctions(Queue, message, musicClient) {
 		case config.prefix + "songs":
 			songList = '';
 			Queue.songs.forEach(function (value, i) {
-				songList = songList + "\n" + i + ".- " + value.name + '. RQB: ' + value.user.tag
+				songList = songList + "\n" + i + ".- " + value.name + '. RQB: ' + value.user.username
 			});
 			message.channel.send(songList);
 			break;
