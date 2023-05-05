@@ -21,6 +21,7 @@ const quoteGameOfThrones = require('./quoteGOT.js')
 const quoteStrangersThings = require('./quoteStrangersThings.js')
 const quoteLucifer = require('./quoteLucifer.js')
 const quoteMotivational = require('./quoteMotivational.js')
+const weather = require('./weather.js')
 
 client.DisTube = new DisTube(client, {
 	leaveOnStop: true,
@@ -70,7 +71,7 @@ client.on("messageCreate", message => {
 	//CHECK SI EL USUARIO ESTA EN UN CANAL DE VOZ PARA PERMITIR FUNCIONES DE MUSICA
 	if(message.member.voice.channel) {
 		//FUNCION DE PLAY/ADD
-		if (args.shift().toLowerCase() === "play" && args.length > 0) {
+		if (args[0].toLowerCase() === "play" && args.length > 0) {
 			music.playSong(message, args, client.DisTube)
 			
 		} else if (Queue !== undefined) {
@@ -88,6 +89,12 @@ client.on("messageCreate", message => {
 		jokes.jokeEN(message)
 	}
 
+	//TIEMPO
+	
+	if (args[0].toLowerCase() === "weather"){
+		weather.weatherCity(message, args[1])
+	}
+  
 	//FRASES FAMOSAS
 	if (message.content.toLowerCase() === (config.prefix +"bbquote")) {
 		quoteBreakingBad.quoteBreakingBad(message)
@@ -108,8 +115,6 @@ client.on("messageCreate", message => {
 	if (message.content.toLowerCase() === (config.prefix +"positivequote")) {
 		quoteMotivational.quoteMotivational(message)
 	}
-
-})
 
 //DAR BIENVENIDA Y ROL DE NUEVO A LOS NUEVOS USUARIOS
 client.on('guildMemberAdd', async(member) => {
