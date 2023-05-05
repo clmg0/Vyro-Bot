@@ -77,28 +77,7 @@ client.on("messageCreate", message => {
         return;
     }
 
-    //WEATHER, BAN && KICK
-	switch(args[0].toLowerCase()) {
-        case "weather":
-            if (args.length > 1) {
-                weather.weatherCity(message, args[1]);
-            }
-            break;
-        case "ban":
-            if (args.length > 1) {
-                ban.banUser(args, message);
-            }
-            break;
-        case "kick":
-            if (args.length > 1) {
-                kick.kickUser(args, message);
-            }
-            break;
-        default:
-                break;
-    }
-
-	//MISCELANEO, CHISTES, QUOTES, ETC.
+	//OTROS COMANDOS, MISCELANEOS Y KICK/BAN.
     switch (args[0].toLowerCase()) {
         case "chiste":
             jokes.jokeES(message);
@@ -120,6 +99,21 @@ client.on("messageCreate", message => {
             break;
         case "positivequote":
             quote.quoteMotivational(message);
+            break;
+        case "weather":
+            if (args.length > 1) {
+                weather.weatherCity(message, args[1]);
+            }
+            break;
+        case "ban":
+            if (args.length > 1) {
+                ban.banUser(args, message);
+            }
+            break;
+        case "kick":
+            if (args.length > 1) {
+                kick.kickUser(args, message);
+            }
             break;
         default:
             break;
