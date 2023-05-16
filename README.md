@@ -1,6 +1,6 @@
 # Vyro-Bot
 
-![Vyro Logo](https://media.discordapp.net/attachments/1092408398307397732/1092409287835390042/image.png)
+![Vyro Logo](https://media.discordapp.net/attachments/1092408398307397732/1108103193008816201/logo.png)
 
 Simple Discord Bot with various functions, including music. Written in JavaScript and using discord-js v14.
 
