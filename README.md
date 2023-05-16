@@ -18,6 +18,7 @@ Bot de Discord simple con varias funciones, incluyendo música. Escrito en JavaS
 - weather 
 - ban 
 - kick 
+- verify
 
 ###### MUSIC: 
 - play 
