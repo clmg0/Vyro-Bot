@@ -7,7 +7,25 @@ Lightweight Discord Bot with various functions, including music. Written in Java
 Bot de Discord liviano con varias funciones, incluyendo música. Escrito en JavaScript y usando discord-js v14.
 
 ### COMMANDS/COMANDOS
-TO-DO
+- help 
+- chiste 
+- joke 
+- bbquote 
+- gotquote 
+- stquote 
+- luciferquote 
+- positivequote 
+- weather 
+- ban 
+- kick 
+
+###### MUSIC: 
+- play 
+- shuffle 
+- songs 
+- pause 
+- stop 
+- skip
 
 ### config.json
 ```
@@ -17,19 +35,5 @@ TO-DO
 	"verifyChannelId": "",
 	"newUserRoleName": "",
 	"verifiedUserRoleName": ""
-}
-```
-### Node.js v18
-```
-{
-  "dependencies": {
-    "@discordjs/opus": "^0.9.0",
-    "@discordjs/voice": "^0.16.0",
-    "discord-anti-spam": "^2.8.1",
-    "discord.js": "^14.10.2",
-    "distube": "^4.0.4",
-    "ffmpeg-static": "^4.4.1",
-    "libsodium-wrappers": "^0.7.11"
-  }
 }
 ```
