@@ -5,7 +5,7 @@ async function quoteBreakingBad(message) {
     const quote = responseJson[0].quote;
     const author = responseJson[0].author;
     const finalMessage = quote + ' - Author:  ' + author;
-    message.channel.send(finalMessage);
+    message.channel.send('**'+finalMessage+'**');
 	
 }
 
@@ -16,7 +16,7 @@ async function quoteStrangersThings(message) {
     const quote = responseJson[0].quote;
     const author = responseJson[0].author;
     const finalMessage = quote + ' - Author:  ' + author;
-    message.channel.send(finalMessage);
+    message.channel.send('**'+finalMessage+'**');
 	
 }
 
@@ -27,7 +27,7 @@ async function quoteMotivational(message) {
     const quote = responseJson.quote;
     const author = responseJson.author;
     const finalMessage = quote + ' - Author:  ' + author;
-    message.channel.send(finalMessage);
+    message.channel.send('**'+finalMessage+'**');
 	
 }
 
@@ -38,7 +38,7 @@ async function quoteLucifer(message) {
     const quote = responseJson[0].quote;
     const author = responseJson[0].author;
     const finalMessage = quote + ' - Author:  ' + author;
-    message.channel.send(finalMessage);
+    message.channel.send('**'+finalMessage+'**');
 	
 }
 
@@ -49,7 +49,7 @@ async function quoteGameOfThrones(message) {
     const sentence = responseJson.sentence;
     const name = responseJson.character.name;
     const finalMessage = sentence + ' - Author:  ' + name;
-    message.channel.send(finalMessage);
+    message.channel.send('**'+finalMessage+'**');
 	
 }
 

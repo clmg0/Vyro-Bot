@@ -22,7 +22,7 @@ function musicQueueFunctions(Queue, message, musicClient) {
 		case config.prefix + "songs":
 			songList = '';
 			Queue.songs.forEach(function (value, i) {
-				songList = songList + "\n" + i + ".- " + value.name + '. RQB: ' + value.user.username
+				songList = songList + "\n **" + i + ".- **" + value.name + '. RQB: **' + value.user.username + '**'
 			});
 			message.channel.send(songList);
 			break;

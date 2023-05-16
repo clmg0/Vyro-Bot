@@ -2,6 +2,7 @@
 const discord = require("discord.js")
 const config = require('./config.json')
 const { DisTube } = require("distube")
+const help = require('./commands/help.js')
 const jokes = require('./commands/jokes.js')
 const verify = require('./commands/verify.js')
 const music = require('./commands/music.js')
@@ -34,13 +35,13 @@ client.DisTube = new DisTube(client, {
 //COMPORTAMIENTO BOT CUANDO SE AÑADEN CANCIONES
 client.DisTube.on('playSong', (queue, song) =>
 	queue.textChannel.send(
-		"Now playing: " + song.name + ". Requested by: " + song.user.username + '\n' + song.url
+		"Now playing: **" + song.name + "**. Requested by: **" + song.user.username + '**\n' + song.url
 	)
 )
 
 client.DisTube.on('addSong', (queue, song) =>
 	queue.textChannel.send(
-		"Added to the queue: " + song.name + ". Requested by: " + song.user.username
+		"Added to the queue: **" + song.name + ". Requested by: **" + song.user.username + '**'
 	)
 )
 
@@ -72,14 +73,19 @@ client.on("messageCreate", message => {
     if (message.member.voice.channel) {
         if (args[0].toLowerCase() === "play" && args.length > 1) {
             music.playSong(message, args, client.DisTube);
+            return;
         } else if (queue) {
             music.musicQueueFunctions(queue, message, client.DisTube);
+            return;
         }
-        return;
     }
 
 	//OTROS COMANDOS, MISCELANEOS Y KICK/BAN.
     switch (args[0].toLowerCase()) {
+        case "help":
+            help.helpMenu(message);
+            break;
+
         case "chiste":
             jokes.jokeES(message);
             break;
@@ -136,7 +142,7 @@ client.on('guildMemberAdd', async(member) => {
 	let role= member.guild.roles.cache.find(role => role.name === config.newUserRoleName);
 	member.roles.add(role);
 	const welcomeChannel = member.guild.channels.cache.find(c => c.name === 'welcome')
-	welcomeChannel.send('Welcome ' + discord.userMention(member.user.id) + ' to ' + member.guild.name + '!' + '\n' + 'Please verify yourself in the verification channel.')
+	welcomeChannel.send('Welcome ' + discord.userMention(member.user.id) + ' to **' + member.guild.name + '!**' + '\n' + 'Please verify yourself in the verification channel.')
 })
 
 client.login(config.token)

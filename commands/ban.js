@@ -34,11 +34,11 @@ function banUser(args, message) {
         return
     } else {
         try {
-            userTargetFound.send("You have been banned from the server for: " + reason + ", " + days + " days.");
+            userTargetFound.send("You have been banned from the server for: **" + reason + ", " + days + " days.**");
             setTimeout(function(){
                 userTargetFound.ban({ days: days, reason: reason });
             },1000 * 10)
-            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been banned for: " + reason + "; " + days + " days.");
+            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been banned for: **" + reason + "; " + days + " days.**");
             return
         } catch (error) {
             console.log(error)

@@ -33,11 +33,11 @@ function kickUser(args, message) {
         return
     } else {
         try {
-            userTargetFound.send("You have been kicked from the server for: " + reason + ".");
+            userTargetFound.send("You have been kicked from the server for: **" + reason + ".**");
             setTimeout(function(){
                 userTargetFound.kick({ reason: reason });
             },1000 * 10)
-            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been kicked for: " + reason + "; " + days + " days.");
+            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been kicked for: **" + reason + "; " + days + " days.**");
             return
         } catch (error) {
             console.log(error)
