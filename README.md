@@ -1,13 +1,32 @@
 # Vyro-Bot
 
-![Vyro Logo](https://media.discordapp.net/attachments/1092408398307397732/1092409287835390042/image.png)
+![Vyro Logo](https://media.discordapp.net/attachments/1092408398307397732/1108103193008816201/logo.png)
 
-Lightweight Discord Bot with various functions, including music. Written in JavaScript and using discord-js v14.
+Simple Discord Bot with various functions, including music. Written in JavaScript and using discord-js v14.
 
-Bot de Discord liviano con varias funciones, incluyendo música. Escrito en JavaScript y usando discord-js v14.
+Bot de Discord simple con varias funciones, incluyendo música. Escrito en JavaScript y usando discord-js v14.
 
 ### COMMANDS/COMANDOS
-TO-DO
+- help 
+- chiste 
+- joke 
+- bbquote 
+- gotquote 
+- stquote 
+- luciferquote 
+- positivequote 
+- weather 
+- ban 
+- kick 
+- verify
+
+###### MUSIC: 
+- play 
+- shuffle 
+- songs 
+- pause 
+- stop 
+- skip
 
 ### config.json
 ```
@@ -17,19 +36,5 @@ TO-DO
 	"verifyChannelId": "",
 	"newUserRoleName": "",
 	"verifiedUserRoleName": ""
-}
-```
-### Node.js v18
-```
-{
-  "dependencies": {
-    "@discordjs/opus": "^0.9.0",
-    "@discordjs/voice": "^0.16.0",
-    "discord-anti-spam": "^2.8.1",
-    "discord.js": "^14.10.2",
-    "distube": "^4.0.4",
-    "ffmpeg-static": "^4.4.1",
-    "libsodium-wrappers": "^0.7.11"
-  }
 }
 ```
