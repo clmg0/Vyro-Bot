@@ -41,7 +41,7 @@ client.DisTube.on('playSong', (queue, song) =>
 
 client.DisTube.on('addSong', (queue, song) =>
 	queue.textChannel.send(
-		"Added to the queue: **" + song.name + ". Requested by: **" + song.user.username + '**'
+		"Added to the queue: **" + song.name + "**. Requested by: **" + song.user.username + '**'
 	)
 )
 
@@ -76,7 +76,6 @@ client.on("messageCreate", message => {
             return;
         } else if (queue) {
             music.musicQueueFunctions(queue, message, client.DisTube);
-            return;
         }
     }
 
