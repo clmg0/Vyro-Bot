@@ -37,7 +37,7 @@ function kickUser(args, message) {
             setTimeout(function(){
                 userTargetFound.kick({ reason: reason });
             },1000 * 10)
-            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been kicked for: **" + reason + "; " + days + " days.**");
+            message.channel.send("The user " + discord.userMention(userTargetFound.user.id) + " has been kicked for: **" + reason);
             return
         } catch (error) {
             console.log(error)
